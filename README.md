@@ -1,5 +1,5 @@
-# DJ_Classes
-**Unity 2019.2.6 project with class exercises and examples.**
+# DJ_Classes - Mobile
+**Unity 2021.3.31 project with class exercises and examples.**
 </br>
 ### HOW TO USE
 1. Download the repository to your computer.
@@ -11,5 +11,6 @@
     - The exercises are identified by "Exercise1", "Exercise2", etc... on the Hierarchy and are **disabled by default**;
     - To view the exercises/examples in action, enable the GameObject corresponding to the exercise/example you want (**you can do so in the Inspector window of that GameObject**);
     - Hit play;
+    - Extra: To preview in a smartphone (if applicable) enable the GameObject corresponding to the exercise/example you want and build to Android the desired scene;
     
 </br>**NOTE:** I ADVISE YOU TO ONLY ENABLE 1 EXERCISE/EXAMPLE AT A TIME, SO THEY DON'T OVERLAP AND CONFUSE YOU

@@ -19,9 +19,6 @@ public class UnityInput_Exercise_2 : MonoBehaviour
     {
         // MOVEMENT
         MoveCube();
-
-        // ROTATION
-        RotateCube(translation);
     }
 
     private void MoveCube()
@@ -35,24 +32,19 @@ public class UnityInput_Exercise_2 : MonoBehaviour
         float hor = Input.GetAxis("Horizontal");
         float ver = Input.GetAxis("Vertical");
 
+        // if there's touches in the screen we want to simulate the above behavior...
+        if (Input.touchCount > 0)
+        {
+            // ...check how much the finger moved on x and y since last frame (deltaPosition)
+            hor = Input.touches[0].deltaPosition.x;
+            ver = Input.touches[0].deltaPosition.y;
+        }
+
         // setup a translation (direction) for the movement
         // since the values range from [-1, 1] they are a good way of setting our direction
         translation = new Vector3(hor, 0, ver);
 
         // apply the movement to this cube's transform
-        transform.position += translation * speed;
-    }
-
-    private void RotateCube(Vector3 _translation)
-    {
-        // only rotate the cube if we're using the keys (so the cube doesn't rotate back to 0)
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(translation);
-            
-            // apply the rotation
-            // Quaternion.Slerp interpolates the rotation to our target rotation (cube's movement direction) by 15% (0.15f) every frame, smoothly rotating our cube
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.15f);
-        }
+        transform.position += translation * (speed * Time.deltaTime);
     }
 }

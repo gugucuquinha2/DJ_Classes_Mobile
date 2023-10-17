@@ -5,31 +5,45 @@ using UnityEngine;
 public class UnityInput_Exercise_1 : MonoBehaviour
 {
     // movement variables
-    public float speed;
+    public float rotSpeed;
+
+    private float hor = 0;
+    private float ver = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // get the Axis value of the virtual buttons
-        // returns a range of values from [-1, 1], depending of the pressed key
-        // EXAMPLE for the "Horizontal" virtual button:
-        // - if "left arrow" (the negative button) is pressed, value will gradually move to -1
-        // - if "right arrow" (the positive button) is pressed, value will gradually move to 1
-        // - if no button is pressed, value will return to 0
-        float hor = Input.GetAxis("Horizontal");
-        float ver = Input.GetAxis("Vertical");
+        // if there's fingers touching the screen...
+        if (Input.touchCount > 0)
+        {
+            float screenFirstHalf = Screen.width * 0.5f;
 
-        // setup a translation (direction) for the movement
-        // since the values range from [-1, 1] they are a good way of setting our direction
-        Vector3 translation = new Vector3(hor, 0, ver);
+            // ... grab the first one and check which half of the screen is being touched
+            if (Input.touches[0].position.x < screenFirstHalf)
+            {
+                // Mathf.Lerp is a mathematical function that interpolates between 2 values, with a given speed
+                // in this case our goal is to smoothly get the "hor" to -1 or 1 (simulating the Input.GetAxis("Horizontal") on PC)
+                hor = Mathf.Lerp(hor, -1, Time.deltaTime * rotSpeed); 
+            }
+            else
+            {
+                hor = Mathf.Lerp(hor, 1, Time.deltaTime * rotSpeed);
+            }
+        }
+        // when no finger is touching the screen, then we interpolate the value back to 0, so the cube stop
+        else
+        {
+            hor = Mathf.Lerp(hor, 0, Time.deltaTime * rotSpeed);
+            ver = Mathf.Lerp(ver, 0, Time.deltaTime * rotSpeed);
+        }
 
-        // apply the movement to this cube's transform
-        transform.position += translation * speed;
+        Vector3 translation = new Vector3(0, hor, 0);
+        transform.Rotate(translation);
     }
 }

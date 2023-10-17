@@ -5,67 +5,40 @@ using UnityEngine;
 public class UnityInput_Exercise_3 : MonoBehaviour
 {
     // movement variables
-    public float speed;
-    private Vector3 translation;
+    public float rotSpeed;
 
     // prefab variables
     public GameObject spherePrefab;
 
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        // MOVEMENT
-        MoveCube();
-
         // ROTATION
-        RotateCube(translation);
+        RotateCube();
 
         // SHOOT SPHERE
         ShootSphere();
     }
 
-    private void MoveCube()
+    private void RotateCube()
     {
-        // get the Axis value of the virtual buttons
-        // returns a range of values from [-1, 1], depending of the pressed key
-        // EXAMPLE for the "Horizontal" virtual button:
-        // - if "left arrow" (the negative button) is pressed, value will gradually move to -1
-        // - if "right arrow" (the positive button) is pressed, value will gradually move to 1
-        // - if no button is pressed, value will return to 0
-        float hor = Input.GetAxis("Horizontal");
-        float ver = Input.GetAxis("Vertical");
-
-        // setup a translation (direction) for the movement
-        // since the values range from [-1, 1] they are a good way of setting our direction
-        translation = new Vector3(hor, 0, ver);
-
-        // apply the movement to this cube's transform
-        transform.position += translation * (speed * Time.deltaTime);
-    }
-
-    private void RotateCube(Vector3 _translation)
-    {
-        // only rotate the cube if we're using the keys (so the cube doesn't rotate back to 0)
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(translation);
-            
-            // apply the rotation
-            // Quaternion.Slerp interpolates the rotation to our target rotation (cube's movement direction) a certain amount every frame (25f * time in seconds on each frame), smoothly rotating our cube
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 25f * Time.deltaTime);
-        }
+        // The accelererometer works with the phone laid horizontally - make sure to place it properly to test builds properly
+        float yRot = -Input.acceleration.x * (rotSpeed * Time.deltaTime);
+        Vector3 translation = new Vector3(0, yRot, 0);
+        
+        transform.Rotate(translation);
     }
 
     private void ShootSphere()
     {
-        // every time we press the button "Shoot" we instantiate a new bullet
-        if (Input.GetButtonDown("Shoot"))
+        // every time we press the "Left Mouse Button" (also works with touch inputs - simpler alternative to Input.touches[0]) we instantiate a new bullet
+        if (Input.GetMouseButtonDown(0))
         {
             Instantiate(spherePrefab, transform.position, transform.rotation);
         }

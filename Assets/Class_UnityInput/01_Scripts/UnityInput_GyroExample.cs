@@ -42,7 +42,7 @@ public class UnityInput_GyroExample : MonoBehaviour
             float screenFirstHalf = Screen.width * 0.5f;
 
             // ... grab the first one and check which half of the screen is being touched
-            if (Input.touches[0].position.x < screenFirstHalf)
+            if (Input.GetTouch(0).position.x < screenFirstHalf)
             {
                 // apply the movement to this cube's transform
                 transform.position += transform.forward * (speed * Time.deltaTime);

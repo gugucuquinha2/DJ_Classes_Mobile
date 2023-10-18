@@ -8,23 +8,44 @@ public class PhysicsRigidbodies_Explosion_Example : MonoBehaviour
     public float explosionRadius;
     public float explosionForce;
 
+    private float startTime;
+    private float endTime;
+
     private void Start()
     {
         // sincer our cubes are at the positon (0, 0, 0). Our explosion position will be in the middle of them, for greater effect
         explosionPosition = Vector3.zero;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // if we press "space"
-        if (Input.GetButtonDown("Shoot"))
+        // if there's tocuhes...
+        if (Input.touchCount > 0)
         {
-            // we cause an explosion
-            Explode();
+            // ... and the touch just began
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                // record its start time
+                startTime = Time.time;
+            }
+            // ... if the touch ended
+            else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+            {
+                // record its ending time
+                endTime = Time.time;
+
+                // calculate how long the touch lasted
+                float touchDuration = endTime - startTime;
+
+                Debug.Log(touchDuration);
+
+                // cause an explosion passing the duration as a multiplier for the explosion force
+                Explode(touchDuration);
+            }
         }
     }
 
-    private void Explode()
+    private void Explode(float _explosionMultiplier)
     {
         // This new method "Physics.OverlapSphere" creates a detection area (sphere) which returns all colliders within its radius (in this case the "explosionRadius")
         Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
@@ -40,7 +61,7 @@ public class PhysicsRigidbodies_Explosion_Example : MonoBehaviour
             {
                 // the explosion requires a force, a position (same as our overlap sphere) and
                 // a radius (again, same as before in our overlap sphere - so it's consistent with our detected objects)
-                rb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius);
+                rb.AddExplosionForce(explosionForce * _explosionMultiplier, explosionPosition, explosionRadius);
             }
         }
     }

@@ -36,8 +36,8 @@ public class UnityInput_Exercise_2 : MonoBehaviour
         if (Input.touchCount > 0)
         {
             // ...check how much the finger moved on x and y since last frame (deltaPosition)
-            hor = Input.touches[0].deltaPosition.x;
-            ver = Input.touches[0].deltaPosition.y;
+            hor = Input.GetTouch(0).deltaPosition.x;
+            ver = Input.GetTouch(0).deltaPosition.y;
         }
 
         // setup a translation (direction) for the movement

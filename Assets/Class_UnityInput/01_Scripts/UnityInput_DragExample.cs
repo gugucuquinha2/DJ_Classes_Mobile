@@ -22,23 +22,23 @@ public class UnityInput_DragExample : MonoBehaviour
         if (Input.touchCount > 0)
         {
             // when the touch starts
-            if (Input.touches[0].phase == TouchPhase.Began)
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 // convert the object's position into the screen position
                 screenObjectPoint = cam.WorldToScreenPoint(transform.position);
 
                 // get the touch position, but considering the actual object's depth (Z axis - we're in 3D)
-                Vector3 touchPos = new Vector3(Input.touches[0].position.x, Input.touches[0].position.y, screenObjectPoint.z);
+                Vector3 touchPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, screenObjectPoint.z);
 
                 // calculate the offset between the object position and the actual mouse position (in world space)
                 // the purpose of this is to make sure the object stays in position no matter where you grab it from (otherwise it will jump to your touch location)
                 offset = transform.position - cam.ScreenToWorldPoint(touchPos);
             }
             // when we're dragging the finger around the screen
-            else if (Input.touches[0].phase == TouchPhase.Moved)
+            else if (Input.GetTouch(0).phase == TouchPhase.Moved)
             {
                 // get the touch position in world space
-                Vector3 touchPos = new Vector3(Input.touches[0].position.x, Input.touches[0].position.y, screenObjectPoint.z);
+                Vector3 touchPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, screenObjectPoint.z);
 
                 // set the position of the object
                 // if you want the object to snap to the touch position, just remove the "offset" calculation

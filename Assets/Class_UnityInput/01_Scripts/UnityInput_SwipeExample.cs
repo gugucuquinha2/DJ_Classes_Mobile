@@ -26,24 +26,23 @@ public class UnityInput_SwipeExample : MonoBehaviour
         if(Input.touchCount > 0)
         {
             // ... and the touch just began
-            if(Input.touches[0].phase == TouchPhase.Began)
+            if(Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 // record its time and position
                 touchTimeStart = Time.time;
-                startPos = Input.touches[0].position;
+                startPos = Input.GetTouch(0).position;
             }
 
             // ... if the touch ended
-            if (Input.touches[0].phase == TouchPhase.Ended)
+            if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 // record the time and position
                 touchTimeEnd = Time.time;
-                endPos = Input.touches[0].position;
+                endPos = Input.GetTouch(0).position;
 
                 // calculate the swipe direction and how fast is the swipe
                 timeDelta = touchTimeEnd - touchTimeStart;
                 direction = endPos - startPos;
-               
             }
         }
 

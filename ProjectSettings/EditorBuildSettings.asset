@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Class_UnityInput/00_Scenes/UnityInput.unity
     guid: 07952c3be4aa7854791161f83a1f030f
+  - enabled: 1
+    path: Assets/Class_PhysicsRigidbodies/00_Scenes/PhysicsRigidbodies.unity
+    guid: 67185348351b65a4a9dd4b80decb0ebb
   m_configObjects: {}

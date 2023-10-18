@@ -11,6 +11,9 @@ public class PhysicsRigidbodies_Exercise_3 : MonoBehaviour
 
     private Rigidbody rb;
 
+    private float hor;
+    private float ver;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +21,7 @@ public class PhysicsRigidbodies_Exercise_3 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         // MOVEMENT
         MoveCube();
@@ -27,23 +30,26 @@ public class PhysicsRigidbodies_Exercise_3 : MonoBehaviour
         Jump();
     }
 
+    private void FixedUpdate()
+    {
+        // In this case, since we're constantly updating the force of the object its best to use "ForceMode.Force", which applies a continous force on our object
+        // and for that reason it's best if we set it on the FixedUpdate()
+        rb.AddForce(translation * force, ForceMode.Force);
+    }
+
     private void MoveCube()
     {
-        // get the Axis value of the virtual buttons
-        // returns a range of values from [-1, 1], depending of the pressed key
-        // EXAMPLE for the "Horizontal" virtual button:
-        // - if "left arrow" (the negative button) is pressed, value will gradually move to -1
-        // - if "right arrow" (the positive button) is pressed, value will gradually move to 1
-        // - if no button is pressed, value will return to 0
-        float hor = Input.GetAxis("Horizontal");
-        float ver = Input.GetAxis("Vertical");
+        // if there's touches in the screen we want to simulate the above behavior...
+        if (Input.touchCount > 0)
+        {
+            // ...check how much the finger moved on x and y since last frame (deltaPosition)
+            hor = Input.GetTouch(0).deltaPosition.x;
+            ver = Input.GetTouch(0).deltaPosition.y;
+        }
 
         // setup a translation (direction) for the movement
         // since the values range from [-1, 1] they are a good way of setting our direction
         translation = new Vector3(hor, 0, ver);
-
-        // In this case, since we're constantly updating the force of the object its best to use "ForceMode.Force", which applies a continous force on our object
-        rb.AddForce(translation * force, ForceMode.Force);
     }
 
     private void Jump()
@@ -51,10 +57,9 @@ public class PhysicsRigidbodies_Exercise_3 : MonoBehaviour
         // first, we check if our object is touching the ground. Since our object's scale is 1, that means that if its position (which is  measured at its center) is 0.5f, it will be touching the ground
         // use a value a little bit bigger than 0.5f so it still works even when the object is still touching the ground, but on a different angle
         // it's simple way of only allowing us to jump, when the object's at the ground
-        if (transform.position.y <= 0.8f)
+        if (transform.position.y <= 0.8f && Input.touchCount > 0)
         {
-            // if it is, then we can jump (we're using the virtual button "Shoot" still, because its key is the spacebar)
-            if (Input.GetButtonDown("Shoot"))
+            if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 // once we jump, we add a force vertically
                 // we directly change the velocity, because we want an immediate change to the velocity, so the jump is quicker

@@ -13,4 +13,4 @@
     - Hit play;
     - Extra: To preview in a smartphone (if applicable) enable the GameObject corresponding to the exercise/example you want and build to Android the desired scene;
     
-</br>**NOTE:** I ADVISE YOU TO ONLY ENABLE 1 EXERCISE/EXAMPLE AT A TIME, SO THEY DON'T OVERLAP AND CONFUSE YOU
+</br>**NOTE:** I ADVISE YOU TO ONLY ENABLE 1 EXERCISE/EXAMPLE AT A TIME, SO THEY DON'T OVERLAP AND CONFUSE YOU. Some examples may not use mobile inputs and their purpose is just to showcase an interesting implementation or feature, make sure to check the script(s) associated with the example to see if it uses mobile inputs, PC inputs or none.

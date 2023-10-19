@@ -24,20 +24,21 @@ public class Raycasting_Exercise_2 : MonoBehaviour
     {
         // the virtual button of the Input Manager which uses the "Left Mouse Button" is "Fire1"
         // by raycasting only when we press the button we're significantly reducing the times we're making our raycast, improving the performance of its use
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.touchCount > 0)
         {
-            // we can access the mouse position on the screen using "Input.mousePosition"
-            Vector3 mousePos = Input.mousePosition;
-
-            // this ray, results from the conversion of our mouse position, from "Screen Space" (pixels) to a Ray in world sapce
-            // the ray goes from the camera to a world point (which is mappped from our mouse position)
-            Ray ray = cam.ScreenPointToRay(mousePos);
-
-            // we can now use this ray in our raycast
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
             {
-                // to change the scale of a transform by 10%, we simply need to multiply it by 1.1 (representing an increase of 0.1 - 10%, over it's regular scale of 1)
-                hit.transform.localScale *= 1.1f;
+                // this ray, results from the conversion of our mouse position, from "Screen Space" (pixels) to a Ray in world sapce
+                // the ray goes from the camera to a world point (which is mappped from our mouse position)
+                Ray ray = cam.ScreenPointToRay(touch.position);
+
+                // we can now use this ray in our raycast
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    // to change the scale of a transform by 10%, we simply need to multiply it by 1.1 (representing an increase of 0.1 - 10%, over it's regular scale of 1)
+                    hit.transform.localScale *= 1.1f;
+                }
             }
         }
     }

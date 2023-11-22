@@ -25,33 +25,34 @@ public class Animation_ChargeJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if we press space, we charge the jump
-        if (Input.GetButtonDown("Jump"))
+        if (Input.touchCount > 0)
         {
-            // We check if our object is touching the ground. Since our object's scale is 1, that means that if its position (which is  measured at its center) is 0.5f, it will be touching the ground
-            // use a value a little bit bigger than 0.5f so it still works even when the object is still touching the ground, but on a different angle
-            // it's simple way of only allowing us to jump, when the object's at the ground
-            if (transform.position.y < 0.6f)
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                // we move our animator to the state of the charge animation
-                animHandler.JumpAnimation(true);
-                // and we're now ready to jump (we can jump)
-                canJump = true;
+                // We check if our object is touching the ground. Since our object's scale is 1, that means that if its position (which is  measured at its center) is 0.5f, it will be touching the ground
+                // use a value a little bit bigger than 0.5f so it still works even when the object is still touching the ground, but on a different angle
+                // it's simple way of only allowing us to jump, when the object's at the ground
+                if (transform.position.y < 0.6f)
+                {
+                    // we move our animator to the state of the charge animation
+                    animHandler.JumpAnimation(true);
+                    // and we're now ready to jump (we can jump)
+                    canJump = true;
+                }
             }
-        }
-        // when we release space, we actually jump
-        else if (Input.GetButtonUp("Jump"))
-        {
-            // if we can jump
-            if (canJump)
+            else if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
-                // we can't jump again
-                canJump = false;
+                // if we can jump
+                if (canJump)
+                {
+                    // we can't jump again
+                    canJump = false;
 
-                // apply the force up
-                rb.velocity = Vector3.up * jumpForce;
-                // // we move our animator to the state of the actual jump animation
-                animHandler.JumpAnimation(false);
+                    // apply the force up
+                    rb.velocity = Vector3.up * jumpForce;
+                    // // we move our animator to the state of the actual jump animation
+                    animHandler.JumpAnimation(false);
+                }
             }
         }
     }

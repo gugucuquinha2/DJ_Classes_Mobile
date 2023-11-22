@@ -8,6 +8,8 @@ public class CharacterAnimation_Exercise_1 : MonoBehaviour
     public float speed;
     private float runMultiplier = 1.5f;
 
+    private bool crouch;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +60,11 @@ public class CharacterAnimation_Exercise_1 : MonoBehaviour
         {
             // if our character is not running, then we don't need to multiply our direction by any values
             animator.SetBool("Run", false);
+        }
+        else if (Input.GetButtonDown("Jump"))
+        {
+            crouch = !crouch;
+            animator.SetBool("Crouch", crouch);
         }
 
         // ADD MOVEMENT //

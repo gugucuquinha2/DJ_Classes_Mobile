@@ -26,7 +26,6 @@ public class Animation_Animation2D_Example : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // manage anything related with inputs
         if (Input.touchCount > 0)
         {

@@ -33,35 +33,38 @@ public class Coroutines_AnimationCurves_Example : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if(Input.touchCount > 0)
         {
-            // we set the animation bool value
-            // if it's true becomes false and vice-versa
-            move = !move;
-
-            Vector3 targetPos = Vector3.zero;
-            // if the animation boolean is true 
-            if (move)
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                // that means our animation should follow the animator animation and as such, the targetPos of our animation is the "endPos"
-                targetPos = endPos;
-            }
-            // if the animation boolean is true 
-            else
-            {
-                // that means our animation should follow the animator animation and as such, the targetPos of our animation is the "initialPos", 
-                // since the cube is getting back to its initial position
-                targetPos = initialPos;
-            }
+                // we set the animation bool value
+                // if it's true becomes false and vice-versa
+                move = !move;
 
-            // it's very important to hold a reference of the current active coroutine (if there's one) so we now specifically what coroutine to stop, when we need to do so
-            // in this case, we need to stop the current coroutine, every time we want to change the target position of our animation, 
-            // so it considers the current of the cube, as the new initial position of the animation
-            if (coroutine != null)
-                StopCoroutine(coroutine);
+                Vector3 targetPos = Vector3.zero;
+                // if the animation boolean is true 
+                if (move)
+                {
+                    // that means our animation should follow the animator animation and as such, the targetPos of our animation is the "endPos"
+                    targetPos = endPos;
+                }
+                // if the animation boolean is true 
+                else
+                {
+                    // that means our animation should follow the animator animation and as such, the targetPos of our animation is the "initialPos", 
+                    // since the cube is getting back to its initial position
+                    targetPos = initialPos;
+                }
 
-            // after making our cube stop, we can now create a new coroutine and assign it to our reference
-            coroutine = StartCoroutine(CubeMovement(targetPos));
+                // it's very important to hold a reference of the current active coroutine (if there's one) so we now specifically what coroutine to stop, when we need to do so
+                // in this case, we need to stop the current coroutine, every time we want to change the target position of our animation, 
+                // so it considers the current of the cube, as the new initial position of the animation
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
+
+                // after making our cube stop, we can now create a new coroutine and assign it to our reference
+                coroutine = StartCoroutine(CubeMovement(targetPos));
+            }
         }
     }
 

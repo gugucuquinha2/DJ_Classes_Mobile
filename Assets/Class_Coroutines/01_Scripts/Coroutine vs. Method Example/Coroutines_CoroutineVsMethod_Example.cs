@@ -49,7 +49,7 @@ public class Coroutines_CoroutineVsMethod_Example : MonoBehaviour
 
             // before moving on to the next while condition verification, the coroutine will WAIT 0.1 seconds
             // this means that this our value will take 1 second (0.1 / 0.1 = 1) to get the "value" to 0
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
         }
 
         // with coroutines we use "yield return" statements to determine how much time/frames the program will wait, until moving on to the next iteration or piece of code

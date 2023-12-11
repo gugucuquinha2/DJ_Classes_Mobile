@@ -9,20 +9,17 @@ public class Joystick_Example : MonoBehaviour, IDragHandler, IPointerUpHandler, 
 	private RectTransform background;
 	private RectTransform handle;
 	private Vector2 originalPosition;
-
+	private Vector2 output = Vector2.zero;
 
 	public enum JoystickModeEnum 
     { 
         Fixed, 
         Dynamic 
     };
-
 	public JoystickModeEnum joystickMode = JoystickModeEnum.Fixed;
 
 	[Range(0f, 0.5f)]
 	public float deadZone = 0.2f;
-
-	public Vector2 output = Vector2.zero;
 
 	private void Start()
 	{
@@ -64,9 +61,12 @@ public class Joystick_Example : MonoBehaviour, IDragHandler, IPointerUpHandler, 
 
     private void CalculateOutput (Vector2 _position)
     {
+		// get the direction of the joystick movement by comparing the background position to the touch position
         Vector2 movementDirection = _position - (Vector2)background.position;
 
+		// get the joystick radius since that's the valid range for the joystick
         float joystickRadius = background.sizeDelta.x * 0.5f;
+		// calculate the "ignorable" area based on the user-defined deadzone
 		float deadSize = deadZone * joystickRadius;
 
         // if we don't reach the minimum amount of input, don't move the handle nor consider the output
@@ -89,7 +89,11 @@ public class Joystick_Example : MonoBehaviour, IDragHandler, IPointerUpHandler, 
 
         // position the handle UI
 		handle.anchoredPosition = output * joystickRadius;
+    }
 
-        Debug.Log(output);
+	// GET THE OUTPUT VALUE SO WE CAN USE IT IN OTHER CLASSES
+	public Vector2 GetJoystickOutput()
+    {
+		return output;
     }
 }

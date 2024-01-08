@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FSM_Movement : MonoBehaviour
 {
-    public float speed = 0.2f;
+    public float speed = 10f;
 
     private Vector3 scale;
 
@@ -22,7 +22,7 @@ public class FSM_Movement : MonoBehaviour
 
         if (hor != 0)
         {
-            transform.position += translation * speed;
+            transform.position += translation * (speed * Time.deltaTime);
 
             if (hor < 0)
             {

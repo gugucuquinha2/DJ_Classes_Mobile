@@ -12,7 +12,7 @@ public class Audio_Footsteps_Example : MonoBehaviour
     private Coroutine co;
 
     // movement
-    public float speed = 0.1f;
+    public float speed = 25f;
     private bool isWalking;
 
     private void Start()
@@ -35,7 +35,7 @@ public class Audio_Footsteps_Example : MonoBehaviour
 
         Vector3 direction = new Vector3(hor, 0, ver);
 
-        transform.Translate(direction * speed, Space.World);
+        transform.Translate(direction * (speed * Time.deltaTime), Space.World);
 
         // AUDIO //
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Audio_SimpleMovement : MonoBehaviour
 {
-    public float speed = 0.1f;
+    public float speed = 25f;
 
     // Update is called once per frame
     void Update()
@@ -14,6 +14,6 @@ public class Audio_SimpleMovement : MonoBehaviour
 
         Vector3 direction = new Vector3(hor, 0, ver);
 
-        transform.position += direction * speed;
+        transform.position += direction * (speed * Time.deltaTime);
     }
 }

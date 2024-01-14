@@ -9,15 +9,21 @@ using System;
 
 public class PersistentData_GS_Example_Movement : MonoBehaviour
 {
+    private Transform camTransform;
     private Rigidbody2D rb;
+    private bool bIsJumping = false;
+    private float hor = 0;
+
     public float speed;
+    public float camFollowSpeed;
 
     // a reference for the UI text displaying the current player's health
     public Text healthTxt;
+    public PersistentData_GS_Example_Joystick joystick;
 
     // a reference for an instance of the class to be saved
     // this way we always know which instance will hold the player information so we can pass it on to our GameData class to be saved
-    public PlayerData playerData;
+    private PlayerData playerData;
 
     private void Awake()
     {
@@ -41,6 +47,7 @@ public class PersistentData_GS_Example_Movement : MonoBehaviour
     {
         // get necessary components
         rb = GetComponent<Rigidbody2D>();
+        camTransform = Camera.main.transform;
         // update the UI
         healthTxt.text = "Health: " + playerData.health;
     }
@@ -61,17 +68,32 @@ public class PersistentData_GS_Example_Movement : MonoBehaviour
     // update callbakc used for the player's movement logic
     void Update()
     {
-        float hor = Input.GetAxis("Horizontal");
+        if (transform.position.y < 0.01f)
+        {
+            bIsJumping = false;
+
+            // only allow controlling movement when not jumping
+            hor = joystick.GetJoystickOutput().x;
+        }
 
         Vector2 vel = rb.velocity;
-        vel.x = hor * speed;
+        Vector3 translation = new Vector3(hor, 0, 0);
 
-        if (Input.GetButtonDown("Jump"))
+        if (joystick.GetJoystickOutput().y > 0.7f && !bIsJumping)
         {
-            if (transform.position.y < 0.3f)
-                vel.y = 8;
+            vel.y = 8;
+
+            bIsJumping = true;
+            hor *= 0.65f;
         }
         rb.velocity = vel;
+
+        transform.position += translation * (speed * Time.deltaTime);
+
+        // update camera position to smoothly follow player position
+        Vector3 camPos = camTransform.position;
+        camPos.x = Mathf.Lerp(camPos.x, transform.position.x, camFollowSpeed * Time.deltaTime);
+        camTransform.position = camPos;
     }
 
     // trigger detection callback
@@ -90,7 +112,7 @@ public class PersistentData_GS_Example_Movement : MonoBehaviour
         else if (collider.gameObject.CompareTag("Checkpoint"))
         {
             // ...we update the level...
-            PersistentData_GS_Example_GlobalVarsManager.Instance.GameManager.UpdateStage();
+            PersistentData_GS_Example_GlobalVarsManager.Instance.GameManager.UpdateStage(true);
             // ...disable the checkpoint so we  can't go past it again
             collider.enabled = false;
 

@@ -17,7 +17,7 @@ public class PersistentData_GS_Example_GameManager : MonoBehaviour
 
     // a reference for an instance of the class to be saved
     // this way we always know which instance will hold the level information so we can pass it on to our GameData class to be saved
-    public LevelData levelData;
+    private LevelData levelData;
 
     // this string will hold the path to where we'll save the file with the settings data
     // since it always remains the same, we can store it once at the start of the game
@@ -67,10 +67,11 @@ public class PersistentData_GS_Example_GameManager : MonoBehaviour
         levelTxt.text = "Stage: " + levelData.level;
     }
 
-    public void UpdateStage()
+    public void UpdateStage(bool _bIncreaseLevel = false)
     {
         // increase the current level
-        levelData.level++;
+        if(_bIncreaseLevel)
+            levelData.level++;
         // update the UI
         levelTxt.text = "Stage: " + levelData.level;
     }

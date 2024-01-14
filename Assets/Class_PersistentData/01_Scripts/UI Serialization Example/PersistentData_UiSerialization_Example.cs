@@ -114,9 +114,16 @@ public class PersistentData_UiSerialization_Example : MonoBehaviour
     }
 
     // we save the settings every time we exit the game (used here as an example)
+    // this works on the editor/PC, but it doesn't work on mobile (Android)
     private void OnApplicationQuit()
     {
         SaveSettings();
+    }
+    
+    // for Android, this event is always called - use this to make sure the game saves when the game is force exited or paused
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause) SaveSettings();
     }
 }
 

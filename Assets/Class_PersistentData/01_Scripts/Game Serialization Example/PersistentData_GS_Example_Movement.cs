@@ -60,7 +60,7 @@ public class PersistentData_GS_Example_Movement : MonoBehaviour
         // update the instance of the PlayerData class in use with the loaded one
         playerData = _playerData;
         // update the player's position - we place it a bit in front of the checkpoint so we don't trigger it again when loading the game
-        transform.position = new Vector3(playerData.position.x + 2.5f, playerData.position.y);
+        transform.position = new Vector3(playerData.position.x + 7f, playerData.position.y);
         // update the UI with the loaded player health value
         healthTxt.text = "Health: " + playerData.health;
     }
